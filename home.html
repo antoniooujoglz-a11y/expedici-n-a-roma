@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Información e inscripción para la Expedición a Roma.">
+  <title>Expedición a Roma</title>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="{{ url_for('home') }}"><span class="brand-mark">R</span><span>EXPEDICIÓN <b>A ROMA</b></span></a>
+  <div class="nav-links"><a href="#destino">El viaje</a><a href="#inscripcion">Inscripción</a><a class="nav-admin" href="{{ url_for('admin_login') }}">Acceso admin ↗</a></div>
+</nav>
+
+<header class="hero">
+  <div class="hero-shade"></div>
+  <div class="hero-content">
+    <span class="eyebrow">UNA EXPERIENCIA PARA RECORDAR</span>
+    <h1>Todos los caminos<br><em>llevan a Roma.</em></h1>
+    <p>Historia, cultura y aventura. Prepárate para descubrir una de las ciudades más fascinantes del mundo.</p>
+    <a class="btn btn-gold" href="#inscripcion">Inscribirme al viaje <span>→</span></a>
+  </div>
+  <div class="hero-caption">ROMA · ITALIA</div>
+</header>
+
+<main>
+  <section class="intro section" id="destino">
+    <div class="section-kicker">EL DESTINO</div>
+    <h2>Una ciudad, miles de historias.</h2>
+    <p class="lead">Viajaremos al corazón de Italia para conocer algunos de sus monumentos más emblemáticos.</p>
+    <div class="places">
+      <article class="place place-colosseum"><div><span>01 / HISTORIA</span><h3>El Coliseo</h3><p>Uno de los grandes símbolos de la antigua Roma.</p></div></article>
+      <article class="place place-trevi"><div><span>02 / TRADICIÓN</span><h3>Fontana di Trevi</h3><p>Una de las fuentes más famosas del mundo.</p></div></article>
+      <article class="place place-vatican"><div><span>03 / ARTE</span><h3>Ciudad del Vaticano</h3><p>Un lugar único por su historia y patrimonio artístico.</p></div></article>
+    </div>
+  </section>
+
+  <section class="enroll-section" id="inscripcion">
+    <div class="enroll-copy">
+      <div class="section-kicker light">RESERVA TU PLAZA</div>
+      <h2>¿Vienes<br>con nosotros?</h2>
+      <p>Rellena el formulario para enviar tu inscripción. El equipo organizador revisará los datos.</p>
+      <div class="mini-note">✦ Solo necesitas indicar tu nombre y curso o grupo.</div>
+    </div>
+    <div class="form-card">
+      <h3>Formulario de inscripción</h3>
+      <p class="form-sub">Completa tus datos para participar.</p>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}<div class="alert {{ category }}">{{ message }}</div>{% endfor %}
+      {% endwith %}
+      <form method="post">
+        <label>Nombre completo<input name="name" maxlength="80" placeholder="Tu nombre y apellidos" required></label>
+        <label>Curso o grupo<input name="group_name" maxlength="40" placeholder="Ej. 4.º ESO B" required></label>
+        <button class="btn btn-dark" type="submit">Enviar inscripción <span>→</span></button>
+      </form>
+      <p class="privacy">Al enviar el formulario, tus datos se facilitarán al equipo organizador del viaje. No introduzcas información adicional.</p>
+    </div>
+  </section>
+
+  <section class="instructions section">
+    <div class="section-kicker">ANTES DE SALIR</div>
+    <h2>Prepara tu viaje.</h2>
+    <div class="instruction-grid">
+      <div><span class="instruction-icon">01</span><h3>Documentación</h3><p>Lleva el documento de identidad en vigor, según las indicaciones del centro.</p></div>
+      <div><span class="instruction-icon">02</span><h3>Puntualidad</h3><p>Llega a la hora indicada al punto de encuentro.</p></div>
+      <div><span class="instruction-icon">03</span><h3>Convivencia</h3><p>Respeta los horarios, al grupo y las instrucciones del profesorado.</p></div>
+      <div><span class="instruction-icon">04</span><h3>Equipaje</h3><p>Utiliza ropa cómoda y calzado adecuado para caminar.</p></div>
+    </div>
+  </section>
+</main>
+<footer><a class="brand footer-brand" href="{{ url_for('home') }}"><span class="brand-mark">R</span><span>EXPEDICIÓN <b>A ROMA</b></span></a><span>Un viaje para descubrir, aprender y compartir.</span><a href="{{ url_for('admin_login') }}">Administración</a></footer>
+</body></html>
