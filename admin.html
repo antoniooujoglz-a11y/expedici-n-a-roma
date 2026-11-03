@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Panel admin · Expedición a Roma</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body class="admin-page"><nav class="nav"><a class="brand" href="{{ url_for('home') }}"><span class="brand-mark">R</span><span>EXPEDICIÓN <b>A ROMA</b></span></a><a class="nav-admin" href="{{ url_for('admin_logout') }}">Cerrar sesión ↗</a></nav>
+<main class="admin-wrap"><div class="admin-title"><div><div class="section-kicker">ZONA PRIVADA</div><h1>Gestión de inscripciones</h1><p>Administra los datos enviados por los alumnos.</p></div><div class="total-box"><strong>{{ registrations|length }}</strong><span>inscripciones</span></div></div>
+{% with messages = get_flashed_messages(with_categories=true) %}{% for category, message in messages %}<div class="alert {{ category }}">{{ message }}</div>{% endfor %}{% endwith %}
+{% if not registrations %}<section class="empty-state"><h2>Aún no hay inscripciones</h2><p>Cuando un alumno complete el formulario, aparecerá aquí.</p></section>{% endif %}
+{% for item in registrations %}
+<section class="admin-card">
+ <div class="admin-card-top"><div><span class="record-id">INSCRIPCIÓN #{{ item['id'] }}</span><h2>{{ item['name'] }}</h2><p>{{ item['group_name'] }} · Recibida: {{ item['created_at'] }}</p></div><span class="state-pill">{% if item['paid'] %}Pago confirmado{% else %}Pago pendiente{% endif %}</span></div>
+ <form method="post" action="{{ url_for('update_registration', registration_id=item['id']) }}" class="admin-form">
+  <label>Estado del pago<select name="paid"><option value="no" {% if not item['paid'] %}selected{% endif %}>Pendiente</option><option value="yes" {% if item['paid'] %}selected{% endif %}>Confirmado</option></select></label>
+  <label>Número de partes<input type="number" name="reports" min="0" max="100" value="{{ item['reports'] }}" required></label>
+  <label class="full">Nota privada del administrador<textarea name="admin_note" rows="2" maxlength="500" placeholder="Añade una nota si es necesario">{{ item['admin_note'] }}</textarea></label>
+  <div class="full review">{% if item['reports'] >= 9 %}9 o más partes: requiere revisión del equipo directivo.{% elif item['reports'] > 0 %}{{ item['reports'] }} parte(s): el equipo directivo revisará la situación.{% else %}No hay partes registrados.{% endif %}</div>
+  <div class="full actions"><button class="btn btn-dark" type="submit">Guardar cambios</button></div>
+ </form>
+ <form method="post" action="{{ url_for('delete_registration', registration_id=item['id']) }}" onsubmit="return confirm('¿Seguro que quieres eliminar esta inscripción?');"><button class="delete-btn" type="submit">Eliminar inscripción</button></form>
+</section>
+{% endfor %}
+</main></body></html>
